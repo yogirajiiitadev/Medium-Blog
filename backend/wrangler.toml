@@ -9,3 +9,4 @@ DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsI
 # backend application picks the environment variables from here (wrangler.toml). So the url provided here is of connection pool
 JWT_SECRET="my-client-secret"
 
+#index.ts picks the environment variable from here!

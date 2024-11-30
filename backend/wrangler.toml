@@ -1,0 +1,11 @@
+name = "backend"
+main = "src/index.ts"
+compatibility_date = "2024-11-26"
+
+# compatibility_flags = [ "nodejs_compat" ]
+
+[vars]
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiY2Q5MzllYmQtNWUzOC00OGYzLTlhNGUtMzFlZTI1ZWRlNTgwIiwidGVuYW50X2lkIjoiMGZjYTFlYjkxYmExNzIwMjIxMTg1NDVkMzE3YTg2ZjE1YjU2YWM3MWUyMjdmZmZlMzdkZTUxNDVjMTYyNTc2MCIsImludGVybmFsX3NlY3JldCI6ImU3NzliYmI0LTgyNzQtNDlkNi05ODJkLTYxYWZjN2E1NmM1MSJ9.jQPOCsuP-2D7Xr4wjObVzRLOojSSYIQvuzW3BnydG2k"
+# backend application picks the environment variables from here (wrangler.toml). So the url provided here is of connection pool
+JWT_SECRET="my-client-secret"
+

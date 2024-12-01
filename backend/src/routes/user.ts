@@ -4,6 +4,8 @@ import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Bindings } from 'hono/types';
 import { decode, sign, verify } from 'hono/jwt'
+import { signupInput } from "yogirajchaudhari1976_medium_blog_common";
+import { signinInput } from "yogirajchaudhari1976_medium_blog_common";
 
 export const userRouter = new Hono<{
     Bindings : {
@@ -19,13 +21,20 @@ userRouter.post('/signup', async (c) => {
       }).$extends(withAccelerate());
       // withAccelerate helps us connect to a connection pool instead of 
       // direct connection to Postgres Database
-  
+      
       const body = await c.req.json();
+      const {success} = signupInput.safeParse(body);
+      if(!success){
+        c.status(411);
+        return c.json({
+            message : "Input format for signup incorrect!"
+        })
+      }
         const user = await prisma.user.create({
-          data: {
-            email: body.email,
+            data: {
+            email: body.username,
             password: body.password,
-          },
+            },
         });  
       const token = await sign({ id: user.id }, c.env.JWT_SECRET);
       return c.json({ jwt: token });
@@ -46,9 +55,16 @@ try {
     // direct connection to Postgres Database
 
     const body = await c.req.json();
+    const {success} = signinInput.safeParse(body);
+    if(!success){
+    c.status(411);
+    return c.json({
+        message : "Input format for signin incorrect!"
+    })
+    }
     const user = await prisma.user.findUnique({
         where: {
-        email: body.email,
+        email: body.username,
         },
     });  
 

@@ -24,17 +24,26 @@ blogRouter.use('/*', async (c,next) => {
     const authHeader = c.req.header("authorization") || "";
     // Bearer space token
     const token = authHeader.split(" ")[1];
-    const user = await verify(token, c.env.JWT_SECRET)
-    if(user){
-      c.set("userId", user.id); 
-      // context does not have a userId key. We have to define it explicitly while Hono initializaton
-      await next(); //proceed
+    try {
+        const user = await verify(token, c.env.JWT_SECRET)
+        if(user){
+            c.set("userId", user.id); 
+            // context does not have a userId key. We have to define it explicitly while Hono initializaton
+            await next(); //proceed
+        }
+        else{
+            c.status(403);
+            c.json({
+                error : "Unauthorized Access!"
+            })
+        }
     }
-    else{
-      c.status(403);
-      c.json({
-        error : "Unauthorized Access!"
-      })
+    catch(e) {
+        c.status(403);
+        c.status(403);
+        c.json({
+            error : "You are not logged in!"
+        })
     }
   })
 
